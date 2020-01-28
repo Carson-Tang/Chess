@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPushButton>
 
 
 void drawBoard(QGraphicsScene* scene){
@@ -28,7 +29,10 @@ int main(int argc, char *argv[])
     //w.show();
     QGraphicsScene* scene = new QGraphicsScene;
     drawBoard(scene);
-
+    QPushButton* GenMovesButton = new QPushButton();
+    GenMovesButton->setText("Generate Moves");
+    GenMovesButton->move(800,0);
+    scene->addWidget(GenMovesButton);
     QGraphicsView view(scene);
     view.show();
     return a.exec();
