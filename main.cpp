@@ -13,9 +13,9 @@ void drawBoard(QGraphicsScene* scene){
             QGraphicsRectItem* grid = new QGraphicsRectItem();
             grid->setRect(j*100,i*100,100,100);
             if ((i+j)%2){
-                grid->setBrush(Qt::white);
-            } else {
                 grid->setBrush(Qt::black);
+            } else {
+                grid->setBrush(Qt::white);
             }
             scene->addItem(grid);
         }
