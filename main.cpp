@@ -109,8 +109,16 @@ class Board {
 
     public:
         Board() {
+            this->clearBoard();
             this->resetBoard();
         }
+    void clearBoard(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                this->board[i][j] = Spot(0, 0, NULL);
+            }
+        }
+    }
     void resetBoard(){
         // Black Rooks
         this->board[0][0] = Spot(0, 0, Rook(false));
