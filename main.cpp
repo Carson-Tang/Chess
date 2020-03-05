@@ -105,13 +105,28 @@ class Spot {
 
 class Board {
     private:
-        static Spot board[8][8];
+        QGraphicsScene* scene;
+        QPushButton* genMovesButton;
+        Spot board[8][8];
 
     public:
-        Board() {
+        Board(QGraphicsScene* scene_, QPushButton* genMovesButton_) : board{
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+            {Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL), Spot(0,0,NULL), Spot(0,0, NULL)},
+        } {
+            this->scene = scene_;
+            this->genMovesButton = genMovesButton_;
+            this->initButton();
             this->clearBoard();
             this->resetBoard();
         }
+
     void clearBoard(){
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
@@ -153,42 +168,43 @@ class Board {
             this->board[6][i] = Spot(6, i, Pawn(false));
         }
     }
-    Spot getSpot(int x, int y){ return this->board[x][y];}
-};
-
-void drawBoard(QGraphicsScene* scene){
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            QGraphicsRectItem* grid = new QGraphicsRectItem();
-
-            grid->setRect(j*100,i*100,100,100);
-            if ((i+j)%2){
-                grid->setBrush(Qt::black);
-            } else {
-                grid->setBrush(Qt::white);
+    void drawBoard(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                QGraphicsRectItem* grid = new QGraphicsRectItem();
+                grid->setRect(j*100,i*100,100,100);
+                if ((i+j) % 2){
+                    grid->setBrush(Qt::black);
+                } else {
+                    grid->setBrush(Qt::white);
+                }
+                this->scene->addItem(grid);
             }
-            scene->addItem(grid);
         }
+        QLabel* piece = new QLabel();
+        piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bking.png"));
+        piece->move(600,600);
+        this->scene->addWidget(piece);
     }
-    QLabel* piece = new QLabel();
-    piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bking.svg.png"));
-    piece->move(600,600);
-    scene->addWidget(piece);
-}
+    Spot getSpot(int x, int y){ return this->board[x][y];}
+    void initButton(){
+        this->genMovesButton->setText("Generate Moves");
+        this->genMovesButton->move(800,0);
+        this->scene->addWidget(this->genMovesButton);
+    }
+};
 
 
 int main(int argc, char *argv[]){
     QApplication a(argc, argv);
     //MainWindow w;
     //w.show();
-    QGraphicsScene* scene = new QGraphicsScene;
+    QGraphicsScene* scene = new QGraphicsScene();
+    QPushButton* genMovesButton = new QPushButton();
 
-    drawBoard(scene);
-
-    QPushButton* GenMovesButton = new QPushButton();
-    GenMovesButton->setText("Generate Moves");
-    GenMovesButton->move(800,0);
-    scene->addWidget(GenMovesButton);
+    Board board = Board(scene, genMovesButton);
+    board.clearBoard();
+    board.drawBoard();
 
     QGraphicsView view(scene);
     view.show();
