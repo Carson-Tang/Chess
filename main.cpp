@@ -8,22 +8,44 @@
 #include <QLabel>
 
 class Piece {
-    QLabel *p;
+    QLabel *piece;
     private:
         bool killed;
         bool white;
 
     public:
-        Piece(bool white_ = false, bool killed_ = false) {
+        Piece(bool white_ = false, bool killed_ = false, QLabel *piece_ = new QLabel()) {
             this->setColor(white_);
             this->setKilled(killed_);
+            this->piece = piece_;
+            this->piece->setStyleSheet("QLabel{ background-color: transparent;}");
         }
-
+    QLabel* getPiece(){ return this->piece;}
     bool isKilled(){ return this->killed;}
     bool isWhite(){ return this->white;}
     void setColor(bool white_){ this->white = white_;}
     void setKilled(bool killed_){ this->killed = killed_;}
-    void setPixmap(){ this->p->setPixmap(QPixmap());}
+    void setImage(char type){
+        if(this->isWhite()){
+            switch (type){
+                case 'K': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/king.png")); break;
+                case 'Q': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/queen.png")); break;
+                case 'R': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/rook.png")); break;
+                case 'B': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bishop.png")); break;
+                case 'N': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/knight.png")); break;
+                case 'P': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/pawn.png")); break;
+            }
+        } else {
+            switch (type){
+                case 'K': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bking.png")); break;
+                case 'Q': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bqueen.png")); break;
+                case 'R': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/brook.png")); break;
+                case 'B': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bbishop1.png")); break;
+                case 'N': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bknight.png")); break;
+                case 'P': this->piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bpawn.png")); break;
+            }
+        }
+    }
 };
 
 
@@ -35,6 +57,7 @@ class King: public Piece {
         King(bool white, bool alreadyCastled_ = false) {
             this->setColor(white);
             this->setCastled(alreadyCastled_);
+            this->setImage('K');
         }
 
     bool hasCastled(){ return this->alreadyCastled;}
@@ -46,6 +69,7 @@ class Queen: public Piece {
     public:
         Queen(bool white) {
             this->setColor(white);
+            this->setImage('Q');
         }
 };
 
@@ -54,6 +78,7 @@ class Rook: public Piece {
     public:
         Rook(bool white) {
             this->setColor(white);
+            this->setImage('R');
         }
 };
 
@@ -62,6 +87,7 @@ class Bishop: public Piece {
     public:
         Bishop(bool white) {
             this->setColor(white);
+            this->setImage('B');
         }
 };
 
@@ -70,6 +96,7 @@ class Knight: public Piece {
     public:
         Knight(bool white) {
             this->setColor(white);
+            this->setImage('N');
         }
 };
 
@@ -78,6 +105,7 @@ class Pawn: public Piece {
     public:
         Pawn(bool white) {
             this->setColor(white);
+            this->setImage('P');
         }
 };
 
@@ -93,6 +121,7 @@ class Spot {
             this->setPiece(piece_);
             this->setX(x_);
             this->setY(y_);
+            this->setPosition(x_, y_);
         }
 
     Piece getPiece(){ return this->piece;}
@@ -101,6 +130,7 @@ class Spot {
     void setX(int x_){ this->x = x_;}
     void setY(int y_){ this->y = y_;}
     void setPiece(Piece piece_){ this->piece = piece_;}
+    void setPosition(int x_, int y_){ this->piece.getPiece()->move(y_*100+5, x_*100);}
 };
 
 class Board {
@@ -138,34 +168,52 @@ class Board {
         // Black Rooks
         this->board[0][0] = Spot(0, 0, Rook(false));
         this->board[0][7] = Spot(0, 7, Rook(false));
+        this->scene->addWidget(this->board[0][0].getPiece().getPiece());
+        this->scene->addWidget(this->board[0][7].getPiece().getPiece());
         // White Rooks
         this->board[7][0] = Spot(7, 0, Rook(true));
         this->board[7][7] = Spot(7, 7, Rook(true));
+        this->scene->addWidget(this->board[7][0].getPiece().getPiece());
+        this->scene->addWidget(this->board[7][7].getPiece().getPiece());
         // Black Knights
         this->board[0][1] = Spot(0, 1, Knight(false));
         this->board[0][6] = Spot(0, 6, Knight(false));
+        this->scene->addWidget(this->board[0][1].getPiece().getPiece());
+        this->scene->addWidget(this->board[0][6].getPiece().getPiece());
         // White Knights
         this->board[7][1] = Spot(7, 1, Knight(true));
         this->board[7][6] = Spot(7, 6, Knight(true));
+        this->scene->addWidget(this->board[7][1].getPiece().getPiece());
+        this->scene->addWidget(this->board[7][6].getPiece().getPiece());
         // Black Bishops
         this->board[0][2] = Spot(0, 2, Bishop(false));
         this->board[0][5] = Spot(0, 5, Bishop(false));
+        this->scene->addWidget(this->board[0][2].getPiece().getPiece());
+        this->scene->addWidget(this->board[0][5].getPiece().getPiece());
         // White Bishops
         this->board[7][2] = Spot(7, 2, Bishop(true));
         this->board[7][5] = Spot(7, 5, Bishop(true));
+        this->scene->addWidget(this->board[7][2].getPiece().getPiece());
+        this->scene->addWidget(this->board[7][5].getPiece().getPiece());
         // Black Queen
         this->board[0][3] = Spot(0, 3, Queen(false));
+        this->scene->addWidget(this->board[0][3].getPiece().getPiece());
         // White Queen
-        this->board[7][3] = Spot(7, 3, Queen(false));
+        this->board[7][3] = Spot(7, 3, Queen(true));
+        this->scene->addWidget(this->board[7][3].getPiece().getPiece());
         // Black King
         this->board[0][4] = Spot(0, 4, King(false));
+        this->scene->addWidget(this->board[0][4].getPiece().getPiece());
         // White King
         this->board[7][4] = Spot(7, 4, King(true));
+        this->scene->addWidget(this->board[7][4].getPiece().getPiece());
         for(int i = 0; i < 8; i++){
             // Black Pawns
             this->board[1][i] = Spot(1, i, Pawn(false));
+            this->scene->addWidget(this->board[1][i].getPiece().getPiece());
             // White Pawns
-            this->board[6][i] = Spot(6, i, Pawn(false));
+            this->board[6][i] = Spot(6, i, Pawn(true));
+            this->scene->addWidget(this->board[6][i].getPiece().getPiece());
         }
     }
     void drawBoard(){
@@ -181,10 +229,6 @@ class Board {
                 this->scene->addItem(grid);
             }
         }
-        QLabel* piece = new QLabel();
-        piece->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bking.png"));
-        piece->move(600,600);
-        this->scene->addWidget(piece);
     }
     Spot getSpot(int x, int y){ return this->board[x][y];}
     void initButton(){
@@ -205,6 +249,7 @@ int main(int argc, char *argv[]){
     Board board = Board(scene, genMovesButton);
     board.clearBoard();
     board.drawBoard();
+    board.resetBoard();
 
     QGraphicsView view(scene);
     view.show();
