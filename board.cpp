@@ -96,9 +96,9 @@ void Board::drawBoard(){
             QGraphicsRectItem* grid = new QGraphicsRectItem();
             grid->setRect(j*100,i*100,100,100);
             if ((i+j) % 2){
-               grid->setBrush(Qt::black);
+               grid->setBrush(QColor(120,50,10));
             } else {
-                grid->setBrush(Qt::white);
+                grid->setBrush(QColor(220,180,130));
             }
             this->scene->addItem(grid);
         }

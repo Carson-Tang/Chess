@@ -29,7 +29,7 @@ void Piece::setImage(char type_){
             case 'K': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bking.png")); break;
             case 'Q': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bqueen.png")); break;
             case 'R': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/brook.png")); break;
-            case 'B': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bbishop1.png")); break;
+            case 'B': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bbishop.png")); break;
             case 'N': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bknight.png")); break;
             case 'P': this->pieceLabel->setPixmap(QPixmap("C:/Users/Carson/Documents/Chess/pieces/bpawn.png")); break;
         }
